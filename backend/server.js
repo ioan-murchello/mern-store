@@ -40,7 +40,21 @@ if (process.env.NODE_ENV === "production") {
 // }
 // ? ---+---+---+---+---+---+---+---+---+---+---+
 
-app.listen(PORT, "0.0.0.0", () => {
-  connectDB();
-  console.log("Server started at " + PORT);
-});
+// app.listen(PORT, "0.0.0.0", () => {
+//   connectDB();
+//   console.log("Server started at " + PORT);
+// });
+
+const startServer = async () => {
+  try {
+    await connectDB(); // wait for MongoDB connection
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Server started at http://0.0.0.0:${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1); // stop server if DB connection fails
+  }
+};
+
+startServer();
