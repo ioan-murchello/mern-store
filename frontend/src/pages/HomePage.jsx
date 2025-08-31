@@ -26,7 +26,7 @@ const HomePage = () => {
         >
           Current products
         </Text>
-        {products.length === 0 && (
+        {products?.length === 0 && (
           <Text
             fontSize="xl"
             textAlign="center"
