@@ -17,15 +17,30 @@ app.use(express.json()); // allows us to accept JSON data in the req.body
 
 app.use("/api/products", productRoutes);
 // ? to connect frontend and backend
+
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const _dirname = path.dirname(__filename);
+
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "/frontend/dist")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
-  });
+  app.use(express.static(path.join(_dirname, "../frontend/dist")));
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(_dirname, "../frontend/dist", "index.html"))
+  );
 }
+
+
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(path.join(__dirname, "/frontend/dist")));
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+//   });
+// }
 // ? ---+---+---+---+---+---+---+---+---+---+---+
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   connectDB();
   console.log("Server started at http://localhost:" + PORT);
 });
